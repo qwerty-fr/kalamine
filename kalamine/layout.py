@@ -119,10 +119,10 @@ class KeyboardLayout:
 
         # load the YAML data (and its ancessor, if any)
         try:
-            cfg = yaml.load(open(filepath), Loader=yaml.SafeLoader)
+            cfg = yaml.load(open(filepath, encoding='utf-8'), Loader=yaml.SafeLoader)
             if 'extends' in cfg:
                 path = os.path.join(os.path.dirname(filepath), cfg['extends'])
-                ext = yaml.load(open(path), Loader=yaml.SafeLoader)
+                ext = yaml.load(open(path, encoding='utf-8'), Loader=yaml.SafeLoader)
                 ext.update(cfg)
                 cfg = ext
         except Exception as e:

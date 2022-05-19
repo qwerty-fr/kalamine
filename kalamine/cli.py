@@ -12,7 +12,7 @@ def pretty_json(layout, path):
                .replace('\n      ', ' ') \
                .replace('\n    ]', ' ]') \
                .replace('\n    }', ' }')
-    open(path, 'w', encoding='utf8').write(text)
+    open(path, 'w', encoding='utf-8').write(text)
 
 
 def make_all(layout, subdir):
@@ -30,12 +30,12 @@ def make_all(layout, subdir):
 
     # Mac OSX driver
     osx_path = out_path('.keylayout')
-    open(osx_path, 'w', newline='\n').write(layout.keylayout)
+    open(osx_path, 'w', encoding='utf-8', newline='\n').write(layout.keylayout)
     print('... ' + osx_path)
 
     # Linux driver, user-space
     xkb_path = out_path('.xkb')
-    open(xkb_path, 'w', newline='\n').write(layout.xkb)
+    open(xkb_path, 'w', encoding='utf-8', newline='\n').write(layout.xkb)
     print('... ' + xkb_path)
 
     # JSON data
@@ -72,9 +72,9 @@ def make(input, out):
             open(output_file, 'w',
                  encoding='utf-16le', newline='\r\n').write(layout.klc)
         elif output_file.endswith('.keylayout'):
-            open(output_file, 'w', newline='\n').write(layout.keylayout)
+            open(output_file, 'w', encoding='utf-8', newline='\n').write(layout.keylayout)
         elif output_file.endswith('.xkb'):
-            open(output_file, 'w', newline='\n').write(layout.xkb)
+            open(output_file, 'w', encoding='utf-8', newline='\n').write(layout.xkb)
         elif output_file.endswith('.json'):
             pretty_json(layout, output_file)
         else:

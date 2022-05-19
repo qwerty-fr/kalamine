@@ -122,7 +122,7 @@ def update_symbols_locale(path, named_layouts):
             return False
         return name in NAMES
 
-    with open(path, 'r+') as symbols:
+    with open(path, 'r+', encoding='utf-8',) as symbols:
 
         # look for Kalamine layouts to be updated or removed
         between_marks = False
