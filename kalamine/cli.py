@@ -8,10 +8,7 @@ from .layout import KeyboardLayout
 
 def pretty_json(layout, path):
     """ Pretty-prints the JSON layout. """
-    text = json.dumps(layout.json, indent=2, ensure_ascii=False) \
-               .replace('\n      ', ' ') \
-               .replace('\n    ]', ' ]') \
-               .replace('\n    }', ' }')
+    text = json.dumps(layout.json, indent=2, ensure_ascii=False)
     open(path, 'w', encoding='utf-8').write(text)
 
 

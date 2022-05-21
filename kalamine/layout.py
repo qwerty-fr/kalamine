@@ -1,16 +1,61 @@
 #!/usr/bin/env python3
+import collections
 import datetime
 import os
 import re
 import sys
+import unicodedata
+from copy import deepcopy
+
 import yaml
+from yaml import MappingNode
+from yaml.constructor import SafeConstructor, ConstructorError
+
+
+def explode_unicode_string(s):
+    """
+        Convert a unicode string to a list of strings each containing the base character + the combining diacritics after
+        Example: ǧ
+    """
+
+    if len(s) == 0:
+        return []
+
+    s_list = [s[0]]
+
+    for c in s[1:]:
+        # Combined diacritics are added to the base character
+        # See https://docs.python.org/3.8/library/unicodedata.html#unicodedata.combining
+        if unicodedata.combining(c):
+            s_list[-1] += c
+        else:
+            s_list.append(c)
+
+    return s_list
+
+
+class CustomUnicodeLoader(yaml.SafeLoader):
+    def __init__(self, stream):
+        super(CustomUnicodeLoader, self).__init__(stream)
+        self.add_constructor('tag:yaml.org,2002:map', CustomUnicodeLoader.construct_unicode_map)
+
+    def construct_unicode_map(self, node, deep=False):
+        mapping = self.construct_mapping(node, deep)
+
+        for key in mapping.keys():
+            # Explode special characters strings to handle combining diacritics properly
+            if key in ['deadkeys', 'full', 'base', 'spacebar', 'shift', 'alt', 'altgr', 'alt_space', 'alt_self', 'alt_shift','full_1dk', '1dk', '1dk_shift']:
+                if isinstance(mapping[key], str):
+                    mapping[key] = explode_unicode_string(mapping[key])
+
+        return mapping
 
 from .template import xkb_keymap, \
     osx_keymap, osx_actions, osx_terminators, \
     klc_keymap, klc_deadkeys, klc_dk_index, \
     web_keymap, web_deadkeys
 
-from .utils import open_local_file, load_data, text_to_lines, lines_to_text, \
+from .utils import open_local_file, load_data, unicode_text_to_lines, lines_to_text, \
     DEFAULT_DEAD_KEYS, ODK_ID
 
 
@@ -40,7 +85,6 @@ def upper_key(letter):
         return letter.upper()
     else:
         return ' '
-
 
 def substitute_lines(text, variable, lines):
     prefix = 'KALAMINE::'
@@ -102,7 +146,6 @@ GEOMETRY = load_data('geometry.yaml')
 # Main
 #
 
-
 class KeyboardLayout:
     """ Lafayette-style keyboard layout: base + 1dk + altgr layers. """
 
@@ -119,10 +162,10 @@ class KeyboardLayout:
 
         # load the YAML data (and its ancessor, if any)
         try:
-            cfg = yaml.load(open(filepath, encoding='utf-8'), Loader=yaml.SafeLoader)
+            cfg = yaml.load(open(filepath, encoding='utf-8'), Loader=CustomUnicodeLoader)
             if 'extends' in cfg:
                 path = os.path.join(os.path.dirname(filepath), cfg['extends'])
-                ext = yaml.load(open(path, encoding='utf-8'), Loader=yaml.SafeLoader)
+                ext = yaml.load(open(path, encoding='utf-8'), Loader=CustomUnicodeLoader)
                 ext.update(cfg)
                 cfg = ext
         except Exception as e:
@@ -153,17 +196,17 @@ class KeyboardLayout:
         # keyboard layers: self.layers & self.dead_keys
         rows = GEOMETRY[self.meta['geometry']]['rows']
         if 'full' in cfg:
-            full = text_to_lines(cfg['full'])
+            full = unicode_text_to_lines(cfg['full'])
             self._parse_template(full, dead_keys, rows, 0)
             self._parse_template(full, dead_keys, rows, 4)
             self.has_altgr = True
         else:
-            base = text_to_lines(cfg['base'])
+            base = unicode_text_to_lines(cfg['base'])
             self._parse_template(base, dead_keys, rows, 0)
             self._parse_template(base, dead_keys, rows, 2)
             if 'altgr' in cfg:
                 self.has_altgr = True
-                self._parse_template(text_to_lines(cfg['altgr']), dead_keys, rows, 4)
+                self._parse_template(unicode_text_to_lines(cfg['altgr']), dead_keys, rows, 4)
 
         # space bar
         spc = SPACEBAR.copy()
@@ -193,12 +236,12 @@ class KeyboardLayout:
         for dk_id in self.dead_keys:
             base = self.dead_keys[dk_id]['base']
             alt = self.dead_keys[dk_id]['alt']
-            used_base = ''
-            used_alt = ''
+            used_base = []
+            used_alt = []
             for i in range(len(base)):
                 if layer_has_char(base[i], 0) or layer_has_char(base[i], 1):
-                    used_base += base[i]
-                    used_alt += alt[i]
+                    used_base.append(base[i])
+                    used_alt.append(alt[i])
             self.dead_keys[dk_id]['base'] = used_base
             self.dead_keys[dk_id]['alt'] = used_alt
 

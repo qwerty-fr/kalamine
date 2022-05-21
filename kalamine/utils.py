@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
+import itertools
 import os
 import yaml
+
+from kalamine.layout import CustomUnicodeLoader
 
 
 def lines_to_text(lines, indent=''):
@@ -12,8 +15,13 @@ def lines_to_text(lines, indent=''):
     return out[:-1]
 
 
-def text_to_lines(text):
-    return text.split('\n')
+def unicode_text_to_lines(text_list):
+    lines = []
+    for is_delim, text in itertools.groupby(text_list, lambda z: z == '\n'):
+        if not is_delim:
+            lines.append(list(text))
+
+    return lines
 
 
 def open_local_file(file_name):
@@ -22,7 +30,7 @@ def open_local_file(file_name):
 
 def load_data(filename):
     return yaml.load(open_local_file(os.path.join('data', filename)),
-                     Loader=yaml.SafeLoader)
+                     Loader=CustomUnicodeLoader)
 
 
 DEFAULT_DEAD_KEYS = load_data('dead_keys.yaml')
