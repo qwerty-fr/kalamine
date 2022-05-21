@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "kalamine"
+version = "0.1.0"
+description = "A cross-platform Keyboard Layout standardization file that can output config files for Windows, Mac, Linux, and Web."
+
+license = "MIT"
+
+authors = [
+    "Fabien Cazenave <fabien@cazenave.cc>",
+    "Paul <devnoname120@gmail.com>"
+]
+
+readme = "README.rst"
+
+repository = "https://github.com/python-poetry/poetry"
+homepage = "https://github.com/python-poetry/poetry"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+click = "8.0.0"
+PyYAML = "5.1.2"
+lxml = "4.6.3"
