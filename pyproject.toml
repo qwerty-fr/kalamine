@@ -10,7 +10,7 @@ authors = [
     "Paul <devnoname120@gmail.com>"
 ]
 
-readme = "README.rst"
+readme = "README.md"
 
 repository = "https://github.com/python-poetry/poetry"
 homepage = "https://github.com/python-poetry/poetry"
