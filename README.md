@@ -33,10 +33,16 @@ base: |
     ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹────────────────────────────────┺━━━━━━━┻━━━━━━━┻━━━━━━━┻━━━━━━━┛
 ```
 
-Build it:
+## Install Poetry
+
+- `git clone https://github.com/qwerty-fr/kalamine`
+- `cd kalamine`
+- `poetry install`
+
+## Building a keyboard layout
 
 ``` bash
-kalamine qwerty-ansi.yaml
+poetry run kalamine qwerty-ansi.yaml
 ```
 
 Get all keyboard drivers:
@@ -49,7 +55,7 @@ dist/
 └── q-ansi.json
 ```
 
-## Install
+## Installing a generated keyboard layout
 
 ### Windows
 
@@ -96,7 +102,7 @@ To apply a keyboard layout in user-space:
 
 ``` bash
 # equivalent to `xkbcomp -w10 layout.xkb $DISPLAY`
-xkalamine apply layout.yaml
+poetry run xkalamine apply layout.yaml
 ```
 
 This has limitations: it doesn't work on Wayland and the keyboard layout
@@ -108,7 +114,7 @@ directly the files in `/usr/share/X11/xkb`. This is where `xkalamine`
 comes in:
 
 ``` bash
-sudo xkalamine install layout.yaml
+sudo poetry run xkalamine install layout.yaml
 ```
 
 There's also:

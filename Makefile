@@ -1,5 +1,5 @@
 all:
-	kalamine layouts/*.yaml
+	poetry run kalamine layouts/*.yaml
 	pytest
 
 clean:
@@ -10,17 +10,9 @@ clean:
 	rm -rf kalamine/__pycache__
 
 lint:
-	flake8 kalamine
+	poetry run flake8 kalamine
 
 publish:
-	flake8 kalamine
-	rm -rf dist/*
-	python3 setup.py bdist_wheel
-	python3 setup.py sdist
-	twine upload dist/*
-
-publish-deps:
-	pip3 install --user twine wheel
-
-dev:
-	pip3 install --user -e .
+	poetry run flake8 kalamine
+	poetry build
+	poetry publish

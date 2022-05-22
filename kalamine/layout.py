@@ -184,7 +184,7 @@ class KeyboardLayout:
         self.meta['fileName'] = self.meta['name8'].lower()
         self.meta['lastChange'] = datetime.date.today().isoformat()
 
-        dead_keys = {}
+        dead_keys = []
         if 'deadkeys' in cfg:
             dead_keys = cfg['deadkeys']
 
