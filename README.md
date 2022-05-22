@@ -1,12 +1,11 @@
 # Kalamine
 
-A cross-platform Keyboard Layout Maker, blatantly stolen from the
-[qwerty-lafayette](https://qwerty-lafayette.org) project.
+A cross-platform tool for a custom keyboard layouts defined in a YAML file. It can output keyboard config files for
+Windows, Mac, Linux, and [x-keyboard](https://github.com/fabi1cazenave/x-keyboard) (Web).
 
 ## Basic Usage
 
-Draw your keyboard layout in ASCII-art and include it in a YAML
-document:
+Draw your keyboard layout in ASCII-art and include it in a YAML document:
 
 ``` yaml
 name: qwerty-ansi
@@ -54,25 +53,25 @@ dist/
 
 ### Windows
 
--   download a keyboard layout installer:
-    -   either
-        [MSKLC](https://www.microsoft.com/en-us/download/details.aspx?id=22339)
-        --- proprietary freeware, compatible with Windows XP, Vista,
-        Seven, 8, 8.1,
-    -   or [KbdEdit](http://www.kbdedit.com/) --- proprietary shareware,
-        compatible with Windows XP, Vista, Seven, 8, 8.1 *and* 10;
--   run this installer to generate a setup program;
--   run the setup program;
--   the keyboard layout appears in the language bar.
+- download a keyboard layout installer:
+    - either
+      [MSKLC](https://www.microsoft.com/en-us/download/details.aspx?id=22339)
+      --- proprietary freeware, compatible with Windows XP, Vista,
+      Seven, 8, 8.1,
+    - or [KbdEdit](http://www.kbdedit.com/) --- proprietary shareware,
+      compatible with Windows XP, Vista, Seven, 8, 8.1 *and* 10;
+- run this installer to generate a setup program;
+- run the setup program;
+- the keyboard layout appears in the language bar.
 
 ### MacOSX
 
--   copy your `*.keylayout` file into:
-    -   either `~/Library/Keyboard Layouts` for the current user only,
-    -   or `/Library/Keyboard Layouts` for all users;
--   restart your session;
--   the keyboard layout appears in the "Language and Text" preferences,
-    "Input Methods" tab.
+- copy your `*.keylayout` file into:
+    - either `~/Library/Keyboard Layouts` for the current user only,
+    - or `/Library/Keyboard Layouts` for all users;
+- restart your session;
+- the keyboard layout appears in the "Language and Text" preferences,
+  "Input Methods" tab.
 
 ### Linux
 
@@ -114,5 +113,5 @@ sudo xkalamine install layout.yaml
 
 There's also:
 
--   `xkalamine list` to enumerate all installed Kalamine layouts
--   `xkalamine remove` to uninstall a Kalamine layout
+- `xkalamine list` to enumerate all installed Kalamine layouts
+- `xkalamine remove` to uninstall a Kalamine layout
