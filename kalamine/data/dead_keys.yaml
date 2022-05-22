@@ -3,7 +3,22 @@
 # 'acute' <=> dead_acute, 'grave' <=> dead_grave, etc.
 # https://help.ubuntu.com/community/GtkDeadKeyTable
 
+# The only exception is the '1dk' key, which is:
+#   - a standard dead key for the MacOSX and Windows drivers;
+#   - a dead AltGr key (ISO_Level3_Latch) for the Linux driver.
+
+# All other dead keys have been grep’ed from my Ubuntu 18.04LTS box,
+# excluding multiple diacritic combinations and combining characters.
+# /usr/share/X11/locale/en_US.UTF-8/Compose
+
 ---
+
+- char: '**'
+  name: 1dk
+  base: ''        # computed from the imported layout
+  alt:  ''        # computed from the imported layout
+  alt_space: "'"  # apostrophe (can be overriden by the `space.1dk` key)
+  alt_self:  "'"  # apostrophe (can be overriden from the imported layout)
 
 - char: '*`'
   name: grave
@@ -12,7 +27,7 @@
   alt_space: '`'  # U+0060 GRAVE ACCENT
   alt_self:  '`'  # U+0060 GRAVE ACCENT
 
-- char: '*‟'
+- char: '*‟' # there’s no “double grave accent” Unicode character :(
   name: doublegrave
   base: AaEeIiOoRrUuѴѴ
   alt:  ȀȁȄȅȈȉȌȍȐȑȔȕѶѷ
@@ -23,20 +38,20 @@
   name: acute
   base: AaCcEeGgIiKkLlMmNnOoPpRrSsUuWwYyZzΑαΕεΗηΙιΟοΥυΩωГгКк
   alt:  ÁáĆćÉéǴǵÍíḰḱĹĺḾḿŃńÓóṔṕŔŕŚśÚúẂẃÝýŹźΆάΈέΉήΊίΌόΎύΏώЃѓЌќ
-  alt_space: "´"  # U+0027 APOSTROPHE
+  alt_space: "'"  # U+0027 APOSTROPHE
   alt_self:  '´'  # U+00B4 ACUTE ACCENT
 
-- char: '*˝'
+- char: '*”' # for the symmetry with the doublegrave ID
   name: doubleacute
   base: OoUuУу
   alt:  ŐőŰűӲӳ
-  alt_space: "˝"  # U+201D RIGHT DOUBLE QUOTATION MARK
+  alt_space: "”"  # U+201D RIGHT DOUBLE QUOTATION MARK
   alt_self:  "˝"  # U+02DD DOUBLE ACUTE ACCENT
 
 - char: '*^'
   name: circumflex
-  base: AaCcEeGgHhIiJjOoSsUuWwYyZz0123456789()+-=„,
-  alt:  ÂâĈĉÊêĜĝĤĥÎîĴĵÔôŜŝÛûŴŵŶŷẐẑ⁰¹²³⁴⁵⁶⁷⁸⁹⁽⁾⁺⁻⁼“‘
+  base: AaCcEeGgHhIiJjOoSsUuWwYyZz0123456789()+-=
+  alt:  ÂâĈĉÊêĜĝĤĥÎîĴĵÔôŜŝÛûŴŵŶŷẐẑ⁰¹²³⁴⁵⁶⁷⁸⁹⁽⁾⁺⁻⁼
   alt_space: '^'  # U+005E CIRCUMFLEX ACCENT
   alt_self:  '^'  # U+005E CIRCUMFLEX ACCENT
 
@@ -46,6 +61,20 @@
   alt:  ǍǎČčĎďĚěǦǧȞȟǏǐǨǩĽľŇňǑǒŘřŠšŤťǓǔŽžǮǯ₀₁₂₃₄₅₆₇₈₉₍₎₊₋₌
   alt_space: 'ˇ'  # U+02C7 CARON
   alt_self:  'ˇ'  # U+02C7 CARON
+
+- char: '*˘'
+  name: breve
+  base: AaEeGgIiOoUuΑαΙιΥυАаЕеЖжИиУу
+  alt:  ĂăĔĕĞğĬĭŎŏŬŭᾸᾰῘῐῨῠӐӑӖӗӁӂЙйЎў
+  alt_space: '˘'  # U+02D8 BREVE
+  alt_self:  '˘'  # U+02D8 BREVE
+
+- char: '*⁻'
+  name: invertedbreve
+  base: AaEeIiOoUuRr
+  alt:  ȂȃȆȇȊȋȎȏȖȗȒȓ
+  alt_space: '˘'  # U+02D8 BREVE
+  alt_self:  '˘'  # U+02D8 BREVE
 
 - char: '*~'
   name: tilde
@@ -82,6 +111,13 @@
   alt_space: '¸'  # U+00B8 CEDILLA
   alt_self:  '¸'  # U+00B8 CEDILLA
 
+- char: '*,'
+  name: belowcomma
+  base: SsTt
+  alt:  ȘșȚț
+  alt_space: ',' # U+002C COMMA
+  alt_self:  ',' # U+002C COMMA
+
 - char: '*˛'
   name: ogonek
   base: AaEeIiOoUu
@@ -89,16 +125,37 @@
   alt_space: '˛'  # U+02DB OGONEK
   alt_self:  '˛'  # U+02DB OGONEK
 
-- char: '*α'
+- char: '*/'
+  name: stroke
+  base: AaBbCcDdEeGgHhIiJjLlOoPpRrTtUuYyZz<≤≥>=
+  alt:  ȺⱥɃƀȻȼĐđɆɇǤǥĦħƗɨɈɉŁłØøⱣᵽɌɍŦŧɄʉɎɏƵƶ≮≰≱≯≠
+  alt_space: '/'  # U+002F SOLIDUS
+  alt_self:  '/'  # U+002F SOLIDUS
+
+- char: '*˙'
+  name: abovedot
+  base: AaBbCcDdEeFfGgHhIijLlMmNnOoPpRrSsTtWwXxYyZz
+  alt:  ȦȧḂḃĊċḊḋĖėḞḟĠġḢḣİıȷĿŀṀṁṄṅȮȯṖṗṘṙṠṡṪṫẆẇẊẋẎẏŻż
+  alt_space: '˙'  # U+02D9 DOT ABOVE
+  alt_self:  '˙'  # U+02D9 DOT ABOVE
+
+- char: '*.'
+  name: belowdot
+  base: AaBbDdEeHhIiKkLlMmNnOoRrSsTtUuVvWwYyZz
+  alt:  ẠạḄḅḌḍẸẹḤḥỊịḲḳḶḷṂṃṆṇỌọṚṛṢṣṬṭỤụṾṿẈẉỴỵẒẓ
+  alt_space: '.'  # U+002E FULL STOP
+  alt_self:  '.'  # U+002E FULL STOP
+
+- char: '*µ'
   name: greek
   base: AaBbDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuWwXxYyZz
   alt:  ΑαΒβΔδΕεΦφΓγΗηΙιΘθΚκΛλΜμΝνΟοΠπΧχΡρΣσΤτΥυΩωΞξΨψΖζ
-  alt_space: 'α'  # U+00B5 GREEK SMALL LETTER ALPHA
-  alt_self:  'α'  # U+00B5 GREEK SMALL LETTER ALPHA
+  alt_space: 'µ'  # U+00B5 MICRO SIGN
+  alt_self:  'µ'  # U+00B5 MICRO SIGN
 
 - char: '*¤'
   name: currency
-  base: bciIlpPrtswy
-  alt:  ฿¢₹₪ł£₱₽₺﷼₩¥
+  base: AaBbÇCçcDdEeFfGgHhIiKkLlMmNnOoPpRrSsTtþÞUuWwYy
+  alt:  ₳؋₱฿₵₡₵¢₯₫₠€₣ƒ₲₲₴₴៛﷼₭₭₤£ℳ₥₦₦૱௹₧₰₨₢$₪₮৳৲৲圓元₩₩円¥
   alt_space: '¤'  # U+00A4 CURRENCY SIGN
   alt_self:  '¤'  # U+00A4 CURRENCY SIGN
