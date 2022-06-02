@@ -31,3 +31,7 @@ lxml = "4.6.3"
 [tool.poetry.scripts]
 kalamine = "kalamine.cli:make"
 xkalamine = "kalamine.cli_xkb:cli"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
