@@ -394,7 +394,9 @@ def web_keymap(layout):
         for i in [0, 1, 4, 5]:
             if key_name in layout.layers[i]:
                 chars.append(layout.layers[i][key_name])
-        if len(chars):
+            else:
+                chars.append('')
+        if len(chars) and any(c != '' for c in chars):
             keymap[KEY_CODES['web'][key_name]] = chars
 
     return keymap
